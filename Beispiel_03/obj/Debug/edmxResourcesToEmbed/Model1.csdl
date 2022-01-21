@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BesitzerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Auto">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Marke" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Kilometerstand" Type="Decimal" Precision="8" Scale="2" Nullable="false" />
+    <Property Name="Herstellungsdatum" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Fk_Id_Besitzer" Type="Int64" Nullable="false" />
+    <Property Name="Code" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Auto1" Relationship="Self.Fk_Auto" FromRole="Auto" ToRole="Auto1" />
+    <NavigationProperty Name="Auto2" Relationship="Self.Fk_Auto" FromRole="Auto1" ToRole="Auto" />
+    <NavigationProperty Name="Besitzer" Relationship="Self.Fk_Id_Besitzer" FromRole="Auto" ToRole="Besitzer" />
+  </EntityType>
+  <EntityType Name="Besitzer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Ausweis" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Auto" Relationship="Self.Fk_Id_Besitzer" FromRole="Besitzer" ToRole="Auto" />
+  </EntityType>
+  <Association Name="Fk_Auto">
+    <End Role="Auto" Type="Self.Auto" Multiplicity="1" />
+    <End Role="Auto1" Type="Self.Auto" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Auto">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Auto1">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Fk_Id_Besitzer">
+    <End Role="Besitzer" Type="Self.Besitzer" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Auto" Type="Self.Auto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Besitzer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Auto">
+        <PropertyRef Name="Fk_Id_Besitzer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="BesitzerEntities2" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Auto" EntityType="Self.Auto" />
+    <EntitySet Name="Besitzer" EntityType="Self.Besitzer" />
+    <AssociationSet Name="Fk_Auto" Association="Self.Fk_Auto">
+      <End Role="Auto" EntitySet="Auto" />
+      <End Role="Auto1" EntitySet="Auto" />
+    </AssociationSet>
+    <AssociationSet Name="Fk_Id_Besitzer" Association="Self.Fk_Id_Besitzer">
+      <End Role="Besitzer" EntitySet="Besitzer" />
+      <End Role="Auto" EntitySet="Auto" />
+    </AssociationSet>
+    <FunctionImport Name="AutoEinfuegen">
+      <Parameter Name="Id" Mode="In" Type="Int64" />
+      <Parameter Name="Marke" Mode="In" Type="String" />
+      <Parameter Name="Kilometerstand" Mode="In" Type="Decimal" />
+      <Parameter Name="Herstellungsdatum" Mode="In" Type="DateTime" />
+      <Parameter Name="Fk_Id_Besitzer" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="AutosLesen" ReturnType="Collection(BesitzerModel.AutosLesen_Result)" />
+    <FunctionImport Name="BesitzerLaden" ReturnType="Collection(BesitzerModel.BesitzerLaden_Result)" />
+  </EntityContainer>
+  <ComplexType Name="AutosLesen_Result">
+    <Property Type="Int64" Name="Id" Nullable="false" />
+    <Property Type="String" Name="Marke" Nullable="false" MaxLength="30" />
+    <Property Type="Decimal" Name="Kilometerstand" Nullable="false" Precision="8" Scale="2" />
+    <Property Type="DateTime" Name="Herstellungsdatum" Nullable="false" />
+    <Property Type="Int64" Name="Fk_Id_Besitzer" Nullable="false" />
+    <Property Type="String" Name="BesitzerName" Nullable="false" MaxLength="50" />
+  </ComplexType>
+  <ComplexType Name="BesitzerLaden_Result">
+    <Property Type="Int64" Name="Id" Nullable="false" />
+    <Property Type="String" Name="Ausweis" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+  </ComplexType>
+</Schema>

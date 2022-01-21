@@ -1,0 +1,75 @@
+﻿@model Auto
+@{
+    ViewBag.Title = "AutoHinzufuegen";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Auto Hinzufügen</h2>
+
+@using (Html.BeginForm("FormularLaden", "Auto", FormMethod.Post))
+{
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-lg-12 form-group">
+            <div class="col-lg-12">
+                @Html.LabelFor(m => m.Code, new { })
+                @Html.TextBoxFor(m => m.Code, new { @class = "form-control", id = "autocode" })
+                @Html.ValidationMessageFor(m => m.Code, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="col-lg-12 form-group">
+            <div class="col-lg-12">
+                <input type="button" class="btn btn-primary btn-block" value="Lesen" onclick="NamenLesen();">
+            </div>
+        </div>
+        <div class="col-lg-12 form-group">
+            <div class="col-lg-12">
+                @Html.LabelFor(m => m.Marke, new { })
+                @Html.TextBoxFor(m => m.Marke, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="col-lg-12 form-group">
+            <div class="col-lg-12">
+                @Html.LabelFor(m => m.Kilometerstand, new { })
+                @Html.TextBox("Kilometerstand", null, new { @class = "form-control", type = "number", @id = "kilometerstandId", @name="kilometerstand" })
+                
+            </div>
+        </div>
+        <div class="col-lg-12 form-group">
+            <div class="col-lg-12">
+                @Html.LabelFor(m => m.Herstellungsdatum, new { })
+                @Html.TextBoxFor(model => model.Herstellungsdatum, new { @type = "date", @class = "form-control datepicker", @Value = DateTime.Now.ToString("yyyy-MM-dd") })
+
+            </div>
+        </div>
+        <div class="col-lg-12 form-group">
+            <div class="col-lg-12">
+                @Html.Label("Besitzername")
+                <br />
+                @Html.DropDownListFor(m => m.Fk_Id_Besitzer, ViewBag.ID_Besitzer_Combo as IEnumerable<SelectListItem>, new { @class = "form-control chosen" })
+            </div>
+        </div>
+        <div class="col-lg-12 form-group">
+            <div class="col-lg-12">
+                <input type="submit" name="submit" class="btn btn-primary btn-block" value="Hinzufügen" />
+                <input type="submit" name="submit" class="btn btn-primary btn-block" value="Bearbeiten" />
+                <input type="submit" name="submit" class="btn btn-primary btn-block" value="Löschen" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts
+{
+    @Scripts.Render("/Funktionen/Auto.js")
+    <script>
+        $(function () {
+            $(".chosen").chosen();
+        });
+    </script>
+    <script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script> <!--Fuer ValidationMessage-->
+    <script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script> <!--Auch fuer ValidationMessage-->
+}
+

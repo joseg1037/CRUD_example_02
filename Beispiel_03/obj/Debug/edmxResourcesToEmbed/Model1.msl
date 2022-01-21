@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="BesitzerModelStoreContainer" CdmEntityContainer="BesitzerEntities2">
+    <EntitySetMapping Name="Auto">
+      <EntityTypeMapping TypeName="BesitzerModel.Auto">
+        <MappingFragment StoreEntitySet="Auto">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Marke" ColumnName="Marke" />
+          <ScalarProperty Name="Kilometerstand" ColumnName="Kilometerstand" />
+          <ScalarProperty Name="Herstellungsdatum" ColumnName="Herstellungsdatum" />
+          <ScalarProperty Name="Fk_Id_Besitzer" ColumnName="Fk_Id_Besitzer" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Besitzer">
+      <EntityTypeMapping TypeName="BesitzerModel.Besitzer">
+        <MappingFragment StoreEntitySet="Besitzer">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Ausweis" ColumnName="Ausweis" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="AutoEinfuegen" FunctionName="BesitzerModel.Store.AutoEinfuegen" />
+    <FunctionImportMapping FunctionImportName="AutosLesen" FunctionName="BesitzerModel.Store.AutosLesen">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="BesitzerModel.AutosLesen_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Marke" ColumnName="Marke" />
+          <ScalarProperty Name="Kilometerstand" ColumnName="Kilometerstand" />
+          <ScalarProperty Name="Herstellungsdatum" ColumnName="Herstellungsdatum" />
+          <ScalarProperty Name="Fk_Id_Besitzer" ColumnName="Fk_Id_Besitzer" />
+          <ScalarProperty Name="BesitzerName" ColumnName="BesitzerName" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="BesitzerLaden" FunctionName="BesitzerModel.Store.BesitzerLaden">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="BesitzerModel.BesitzerLaden_Result">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Ausweis" ColumnName="Ausweis" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

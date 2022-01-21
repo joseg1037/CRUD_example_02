@@ -1,0 +1,64 @@
+﻿@model IEnumerable<AutosLesen_Result>
+@{
+    ViewBag.Title = "AutosLaden";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Autos Laden</h2>
+
+<table id="tblAutos" class="table table-bordered table-hover table-responsive">
+    <thead>
+        <tr>
+            <th>
+                @Html.Label("Marke", htmlAttributes: new { @class = "group-label col-md-4" })
+            </th>
+            <th>
+                @Html.Label("Kilometerstand", htmlAttributes: new { @class = "group-label col-md-4" })
+            </th>
+            <th>
+                @Html.Label("Herstellungsdatum", htmlAttributes: new { @class = "group-label col-md-4" })
+            </th>
+            <th>
+                @Html.Label("Besitzername", htmlAttributes: new { @class = "group-label col-md-4" })
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var Auto in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Auto.Marke)
+                </td>
+                <td>
+                    @{
+                        var kilometerstand = Auto.Kilometerstand.ToString("0.00");
+                    }
+                    @Html.DisplayFor(modelItem => kilometerstand)
+                </td>
+                <td>
+                    @{
+                        var date = Auto.Herstellungsdatum.ToString("dd-MM-yyyy");
+                    }
+
+                    @Html.DisplayFor(modelItem => date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Auto.BesitzerName)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#tblAutos').DataTable({
+                "paging": true,
+                "pageLength": 5,
+                "sort": (true, true, false)
+            });
+        });
+    </script>
+}
+

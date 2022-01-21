@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="BesitzerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Auto">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Marke" Type="varchar" MaxLength="30" Nullable="false" />
+    <Property Name="Kilometerstand" Type="decimal" Precision="8" Scale="2" Nullable="false" />
+    <Property Name="Herstellungsdatum" Type="date" Nullable="false" />
+    <Property Name="Fk_Id_Besitzer" Type="bigint" Nullable="false" />
+    <Property Name="Code" Type="varchar" MaxLength="30" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Besitzer">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Ausweis" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <Association Name="Fk_Auto">
+    <End Role="Auto" Type="Self.Auto" Multiplicity="1" />
+    <End Role="Auto1" Type="Self.Auto" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Auto">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Auto1">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="Fk_Id_Besitzer">
+    <End Role="Besitzer" Type="Self.Besitzer" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Auto" Type="Self.Auto" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Besitzer">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Auto">
+        <PropertyRef Name="Fk_Id_Besitzer" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Function Name="AutoEinfuegen" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Id" Type="bigint" Mode="In" />
+    <Parameter Name="Marke" Type="varchar" Mode="In" />
+    <Parameter Name="Kilometerstand" Type="decimal" Mode="In" />
+    <Parameter Name="Herstellungsdatum" Type="date" Mode="In" />
+    <Parameter Name="Fk_Id_Besitzer" Type="bigint" Mode="In" />
+  </Function>
+  <Function Name="AutosLesen" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="BesitzerLaden" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <EntityContainer Name="BesitzerModelStoreContainer">
+    <EntitySet Name="Auto" EntityType="Self.Auto" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Besitzer" EntityType="Self.Besitzer" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="Fk_Auto" Association="Self.Fk_Auto">
+      <End Role="Auto" EntitySet="Auto" />
+      <End Role="Auto1" EntitySet="Auto" />
+    </AssociationSet>
+    <AssociationSet Name="Fk_Id_Besitzer" Association="Self.Fk_Id_Besitzer">
+      <End Role="Besitzer" EntitySet="Besitzer" />
+      <End Role="Auto" EntitySet="Auto" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
